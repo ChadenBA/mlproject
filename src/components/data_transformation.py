@@ -1,9 +1,9 @@
 import sys
 from dataclasses import dataclass
-
-import numpy as np 
+import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer
+
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder,StandardScaler
@@ -13,22 +13,17 @@ from src.logger import logging
 import os
 
 from src.utils import save_object
-
 @dataclass
 class DataTransformationConfig:
-    preprocessor_obj_file_path=os.path.join('artifacts',"proprocessor.pkl")
-
+    preprocessor_obj_file_path=os.path.join('artifacts',"preprocessor.pkl")
+    
 class DataTransformation:
     def __init__(self):
         self.data_transformation_config=DataTransformationConfig()
-
-    def get_data_transformer_object(self):
-        '''
-        This function si responsible for data trnasformation
         
-        '''
+    def get_data_transformer_obj(self):
         try:
-            numerical_columns = ["writing_score", "reading_score"]
+            numerical_columns=["writing_score","reading_score"]
             categorical_columns = [
                 "gender",
                 "race_ethnicity",
@@ -72,7 +67,11 @@ class DataTransformation:
         
         except Exception as e:
             raise CustomException(e,sys)
-        
+
+
+
+
+
     def initiate_data_transformation(self,train_path,test_path):
 
         try:
@@ -83,7 +82,7 @@ class DataTransformation:
 
             logging.info("Obtaining preprocessing object")
 
-            preprocessing_obj=self.get_data_transformer_object()
+            preprocessing_obj=self.get_data_transformer_obj()
 
             target_column_name="math_score"
             numerical_columns = ["writing_score", "reading_score"]
